@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image from "next/image";
 
 export function About() {
   return (
@@ -20,26 +20,32 @@ export function About() {
             </h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                I am a backend developer that loves learning and building innovative solutions. I have excellent
-                organization skills, I am meticulous, and always looking for ways to improve on myself and skillset.
+                I am a backend developer that loves learning and building
+                innovative solutions. I have excellent organization skills, I am
+                meticulous, and always looking for ways to improve on myself and
+                skillset.
               </p>
               <p>
-                I've worked on projects using Python, PHP, and JavaScript. Apart from that, I have developed databases,
-                and integrated APIs. I also volunteer as a backend tutor. I am very enthusiastic about bringing the
-                technical and visual aspects of digital products to life. Writing clear, readable, highly performant
-                code matters to me.
+                I&apos;ve worked on projects using Python, PHP, and JavaScript.
+                Apart from that, I have developed databases, and integrated
+                APIs. I also volunteer as a backend tutor. I am very
+                enthusiastic about bringing the technical and visual aspects of
+                digital products to life. Writing clear, readable, highly
+                performant code matters to me.
               </p>
               <p>
-                I began my journey as a software engineer in 2022, and since then, I've continued to grow and evolve as
-                a developer, taking on new challenges and learning the latest technologies along the way. Now, 2 years
-                after starting my software engineering journey, I'm building cutting-edge software applications using
-                modern technologies such as React.js, Javascript, FastAPI, Tailwindcss, and more.
+                I began my journey as a software engineer in 2022, and since
+                then, I&apos;ve continued to grow and evolve as a developer,
+                taking on new challenges and learning the latest technologies
+                along the way. Now, 2 years after starting my software
+                engineering journey, I&apos;m building cutting-edge software
+                applications using modern technologies such as React.js,
+                Javascript, FastAPI, Tailwindcss, and more.
               </p>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
-
