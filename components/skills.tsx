@@ -15,7 +15,7 @@ const skills = [
   { name: "Laravel", icon: "/bolu_icon/laravel-2.svg" },
   { name: "Python", icon: "/bolu_icon/py.png" },
   { name: "Django", icon: "/bolu_icon/django-logo-positive.svg" },
-  { name: "FastAPI", icon: "/bolu_icon/FASTAPI.svg" },
+  { name: "FastAPI", icon: "/bolu_icon/FastAPI.svg" },
 ]
 
 export function Skills() {
