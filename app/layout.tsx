@@ -1,27 +1,37 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import type React from "react"; // Import React
+import type { Metadata } from "next"
+import { Outfit } from "next/font/google"
+import "./globals.css"
+import type React from "react" // Import React
+import { ThemeProvider } from "@/components/theme-provider"
 
-const inter = Inter({ subsets: ["latin"] });
+// Use Outfit as our primary font - modern, clean and highly readable
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-outfit",
+})
 
 export const metadata: Metadata = {
   title: "Boluwatife Ade-ojo - Software Developer",
-  description:
-    "Personal portfolio of Boluwatife Ade-ojo, a software developer based in Nigeria",
-  icons: {
-    icon: "/icon.png",
-  },
-};
+  description: "Personal portfolio of Boluwatife Ade-ojo, a software developer based in Nigeria",
+    generator: 'v0.dev'
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`scroll-smooth ${outfit.variable}`} suppressHydrationWarning>
+      <body className="font-outfit">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
-  );
+  )
 }
+
+
+import './globals.css'
