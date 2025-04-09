@@ -91,7 +91,7 @@ export function About() {
                 viewport={{ once: true }}
               >
                 I began my journey as a software engineer in 2022, and since then, I've continued to grow and evolve as
-                a developer, taking on new challenges and learning the latest technologies along the way. Now, 2 years
+                a developer, taking on new challenges and learning the latest technologies along the way. Now, 3 years
                 after starting my software engineering journey, I'm building cutting-edge software applications using
                 modern technologies such as React.js, Javascript, FastAPI, Tailwindcss, and more.
               </motion.p>
