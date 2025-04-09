@@ -1,32 +1,32 @@
-"use client";
+"use client"
 
-import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card"
+import { motion } from "framer-motion"
+import Image from "next/image"
 
 const reviews = [
   {
-    name: "John Smith",
-    role: "Product Manager",
+    name: "Ikechukwu Anowa-Duke",
+    role: "Visual Designer",
     image: "/bolu_icon/Ellipse 2664.png",
     content:
       "Working with Boluwatife was a great experience. His technical expertise and attention to detail resulted in an outstanding product.",
   },
   {
-    name: "Sarah Johnson",
+    name: "Praise",
     role: "UI Designer",
     image: "/bolu_icon/Ellipse 2664.png",
     content:
       "Exceptional developer who brings both technical skill and creative thinking to every project. A pleasure to work with.",
   },
   {
-    name: "Michael Brown",
-    role: "Tech Lead",
+    name: "Farouk Ejalonibu",
+    role: "Frontend Engineer",
     image: "/bolu_icon/Ellipse 2664.png",
     content:
       "Boluwatife's backend development skills are top-notch. He consistently delivers high-quality, well-documented code.",
   },
-];
+]
 
 export function Reviews() {
   return (
@@ -48,23 +48,14 @@ export function Reviews() {
                 <CardContent className="p-6 flex flex-col h-full">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                      <Image
-                        src={review.image || "/placeholder.svg"}
-                        alt={review.name}
-                        fill
-                        className="object-cover"
-                      />
+                      <Image src={review.image || "/placeholder.svg"} alt={review.name} fill className="object-cover" />
                     </div>
                     <div>
                       <h3 className="font-semibold">{review.name}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {review.role}
-                      </p>
+                      <p className="text-sm text-muted-foreground">{review.role}</p>
                     </div>
                   </div>
-                  <p className="text-muted-foreground flex-grow">
-                    {review.content}
-                  </p>
+                  <p className="text-muted-foreground flex-grow">{review.content}</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -72,5 +63,5 @@ export function Reviews() {
         </div>
       </div>
     </section>
-  );
+  )
 }
