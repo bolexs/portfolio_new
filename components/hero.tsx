@@ -52,7 +52,7 @@ export function Hero() {
                   transition={{ delay: 0.7, duration: 0.8 }}
                 >
                   <TypingAnimation
-                    words={["Software Engineer", "Cloud Architect", "DevOps Engineer", "Data Architect"]}
+                    words={["Software Engineer", "Cloud Architect","Al engineer", "DevOps Engineer", "Data Architect"]}
                     typingSpeed={150}
                     deletingSpeed={100}
                     delayBetweenWords={1500}
