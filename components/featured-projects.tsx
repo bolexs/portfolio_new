@@ -35,7 +35,7 @@ const projects: Project[] = [
       "Interactive quiz platform for creating, sharing, and participating in quizzes for educational and entertainment purposes.",
     image: "/projects/quizlink.png",
     url: "https://quizlink.net",
-    technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
+    technologies: ["React", "Python", "FastAPI", "Postgres", "Tailwind CSS"],
   },
 ]
 
