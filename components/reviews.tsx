@@ -6,6 +6,13 @@ import Image from "next/image"
 
 const reviews = [
   {
+    name: "Paul Negedu",
+    role: "CEO at QuizLink | Ex-Dell Engineer",
+    image: "/bolu_icon/Ellipse 2664.png",
+    content:
+      "I had the privilege of working with Bolu during the launch and development of QuizLink. Bolu is exceptional at taking ideas from 0 to 1, his ability to architect and ship production-ready systems quickly is remarkable. What sets Bolu apart is his proactive mindset and ownership mentality. On our launch day, he caught someone attempting to compromise our system and immediately pushed a security fix, preventing what could have been a critical incident. Bolu is the definition of a T-shaped developer - he has deep expertise in Python and database architecture while maintaining strong working knowledge across the full stack. At QuizLink, he architected our microservices infrastructure, implemented sophisticated LLM integrations, and built systems that now serve 4,000+ active users. He's someone who doesn't just write code - he thinks about scalability, maintainability, and security from day one.",
+  },
+  {
     name: "Ikechukwu Anowa-Duke",
     role: "Visual Designer",
     image: "/bolu_icon/Ellipse 2664.png",

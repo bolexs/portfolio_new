@@ -37,6 +37,15 @@ const projects: Project[] = [
     url: "https://quizlink.net",
     technologies: ["React", "Python", "FastAPI", "Postgres", "Tailwind CSS"],
   },
+  {
+    id: "03",
+    title: "AlphaCom Online",
+    description:
+      "Premium e-commerce platform for technology retail, offering computers, electronics, and gadgets with 100% warranty and customer support.",
+    image: "/projects/alphacom.png",
+    url: "https://alphacomonline.com",
+    technologies: ["Next.js", "React", "FastAPI", "Python", "TailwindCSS"],
+  },
 ]
 
 export function FeaturedProjects() {
