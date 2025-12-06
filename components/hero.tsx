@@ -137,28 +137,6 @@ export function Hero() {
           </motion.div>
         </div>
       </div>
-
-      <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 1 }}
-      >
-        <motion.div
-          className="w-6 h-10 border-2 border-primary rounded-full flex justify-center p-1"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-        >
-          <motion.div
-            className="w-1 h-2 bg-primary rounded-full"
-            animate={{
-              y: [0, 15, 0],
-              opacity: [1, 0, 1],
-            }}
-            transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-          />
-        </motion.div>
-      </motion.div>
     </section>
   )
 }
