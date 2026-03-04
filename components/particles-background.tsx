@@ -18,9 +18,7 @@ export function ParticlesBackground() {
     })
   }, [])
 
-  const particlesLoaded = useCallback(async () => {
-    // Particles loaded callback
-  }, [])
+  const particlesLoaded = useCallback(async () => {}, [])
 
   if (!init) return null
 
@@ -31,30 +29,19 @@ export function ParticlesBackground() {
       particlesLoaded={particlesLoaded}
       options={{
         background: {
-          color: {
-            value: "transparent",
-          },
+          color: { value: "transparent" },
         },
         fpsLimit: 60,
         interactivity: {
           events: {
-            onClick: {
-              enable: true,
-              mode: "push",
-            },
-            onHover: {
-              enable: true,
-              mode: "repulse",
-            },
+            onClick: { enable: false },
+            onHover: { enable: true, mode: "grab" },
             resize: { enable: true },
           },
           modes: {
-            push: {
-              quantity: 4,
-            },
-            repulse: {
-              distance: 100,
-              duration: 0.4,
+            grab: {
+              distance: 140,
+              links: { opacity: 0.3 },
             },
           },
         },
@@ -64,35 +51,31 @@ export function ParticlesBackground() {
           },
           links: {
             color: isDarkTheme ? "#ffffff" : "#000000",
-            distance: 150,
+            distance: 200,
             enable: true,
-            opacity: 0.2,
-            width: 1,
+            opacity: 0.08,
+            width: 0.5,
           },
           move: {
             direction: "none",
             enable: true,
-            outModes: {
-              default: "bounce",
-            },
-            random: true,
-            speed: 1,
+            outModes: { default: "out" },
+            random: false,
+            speed: 0.4,
             straight: false,
           },
           number: {
-            density: {
-              enable: true,
-            },
-            value: 400, 
+            density: { enable: true },
+            value: 60,
           },
           opacity: {
-            value: 0.3,
+            value: { min: 0.05, max: 0.2 },
           },
           shape: {
             type: "circle",
           },
           size: {
-            value: { min: 1, max: 3 },
+            value: { min: 0.5, max: 2 },
           },
         },
         detectRetina: true,

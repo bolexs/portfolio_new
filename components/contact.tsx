@@ -1,27 +1,102 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Github, Linkedin, Twitter, Send } from "lucide-react"
 import Link from "next/link"
 import { useRef, useState } from "react"
 import emailjs from "@emailjs/browser"
 import { toast } from "sonner"
-import { motion, useInView } from "framer-motion"
+import { motion } from "framer-motion"
+import { SectionHeading } from "@/components/section-heading"
+import { useMagnetic } from "@/hooks/use-magnetic"
+
+function AnimatedInput({
+  type = "text",
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & { type?: string }) {
+  const [isFocused, setIsFocused] = useState(false)
+
+  return (
+    <div className="relative">
+      <input
+        type={type}
+        {...props}
+        onFocus={(e) => {
+          setIsFocused(true)
+          props.onFocus?.(e)
+        }}
+        onBlur={(e) => {
+          setIsFocused(false)
+          props.onBlur?.(e)
+        }}
+        className="w-full bg-transparent border-b-2 border-border/50 pb-3 pt-2 focus:outline-none transition-colors text-foreground placeholder:text-muted-foreground"
+      />
+      <motion.div
+        className="absolute bottom-0 left-0 h-[2px] bg-primary"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: isFocused ? 1 : 0 }}
+        style={{ originX: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      />
+    </div>
+  )
+}
+
+function AnimatedTextarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
+  const [isFocused, setIsFocused] = useState(false)
+
+  return (
+    <div className="relative">
+      <textarea
+        {...props}
+        onFocus={(e) => {
+          setIsFocused(true)
+          props.onFocus?.(e)
+        }}
+        onBlur={(e) => {
+          setIsFocused(false)
+          props.onBlur?.(e)
+        }}
+        className="w-full min-h-[120px] bg-transparent border-b-2 border-border/50 pb-3 pt-2 focus:outline-none transition-colors resize-none text-foreground placeholder:text-muted-foreground"
+      />
+      <motion.div
+        className="absolute bottom-0 left-0 h-[2px] bg-primary"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: isFocused ? 1 : 0 }}
+        style={{ originX: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      />
+    </div>
+  )
+}
+
+function MagneticButton({
+  children,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { x, y } = useMagnetic(ref, 0.25)
+
+  return (
+    <motion.div ref={ref} style={{ x, y }}>
+      <Button type="submit" className="w-full group" {...props}>
+        {children}
+      </Button>
+    </motion.div>
+  )
+}
 
 export function Contact() {
   const formRef = useRef<HTMLFormElement>(null)
-  const isInView = useInView(formRef, { once: false, amount: 0.3 })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!formRef.current) return
-    
+
     setIsSubmitting(true)
-    
+
     try {
       const result = await emailjs.sendForm(
         "service_iwrqg1i",
@@ -41,118 +116,41 @@ export function Contact() {
     }
   }
 
-  function SubmitButton() {
-    return (
-      <Button type="submit" className="w-full group" disabled={isSubmitting}>
-        <span className="mr-2">{isSubmitting ? "SENDING..." : "GET IN TOUCH"}</span>
-        <motion.span
-          animate={{ x: isSubmitting ? [0, 5, 0] : 0 }}
-          transition={{ repeat: isSubmitting ? Number.POSITIVE_INFINITY : 0, duration: 1 }}
-        >
-          <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-        </motion.span>
-      </Button>
-    )
-  }
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 },
-    },
-  }
-
   return (
     <section id="contact" className="py-16 md:py-24 bg-muted/30 relative overflow-hidden">
-      <motion.div
-        className="absolute inset-0 -z-10"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-500/5" />
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-primary/10 dark:bg-primary/5"
-            style={{
-              width: Math.random() * 100 + 50,
-              height: Math.random() * 100 + 50,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              x: [0, Math.random() * 50 - 25],
-              y: [0, Math.random() * 50 - 25],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </motion.div>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/3" />
 
       <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl md:text-5xl font-bold inline-block">
-            Get In <span className="text-primary">Touch</span>
-          </h2>
-          <motion.div
-            className="h-1 w-20 bg-primary mx-auto mt-4"
-            initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          />
-        </motion.div>
+        <SectionHeading>
+          Get In <span className="text-primary">Touch</span>
+        </SectionHeading>
 
-        <motion.div
-          className="grid md:grid-cols-2 gap-12 items-center max-w-4xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <motion.div className="space-y-6" variants={containerVariants}>
-            <motion.div variants={itemVariants}>
+        <div className="grid md:grid-cols-2 gap-12 items-center max-w-4xl mx-auto">
+          {/* Left info column — slides from left */}
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 80, damping: 20 }}
+            viewport={{ once: true }}
+          >
+            <div>
               <h3 className="text-2xl font-bold mb-4">
-                Let's <span className="text-primary">build</span> Something special
+                Let&apos;s <span className="text-primary">build</span> Something special
               </h3>
               <p className="text-muted-foreground mb-8">
                 I seek to push the limits of creativity to create high-engaging, user-friendly, and memorable
                 interactive experiences.
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div className="space-y-4" variants={containerVariants}>
-              <motion.div variants={itemVariants}>
+            <div className="space-y-4">
+              <div>
                 <h4 className="text-xl font-bold">Email</h4>
                 <p className="text-muted-foreground">info@bobas.tech</p>
-              </motion.div>
+              </div>
 
-              <motion.div variants={itemVariants}>
+              <div>
                 <h4 className="text-xl font-bold">Socials</h4>
                 <div className="flex items-center space-x-4 mt-2">
                   {[
@@ -161,10 +159,22 @@ export function Contact() {
                       icon: <Linkedin className="w-5 h-5" />,
                       label: "LinkedIn",
                     },
-                    { href: "https://github.com/bolexs", icon: <Github className="w-5 h-5" />, label: "GitHub" },
-                    { href: "https://twitter.com/bolex396", icon: <Twitter className="w-5 h-5" />, label: "Twitter" },
+                    {
+                      href: "https://github.com/bolexs",
+                      icon: <Github className="w-5 h-5" />,
+                      label: "GitHub",
+                    },
+                    {
+                      href: "https://twitter.com/bolex396",
+                      icon: <Twitter className="w-5 h-5" />,
+                      label: "Twitter",
+                    },
                   ].map((social) => (
-                    <motion.div key={social.label} whileHover={{ scale: 1.1, y: -3 }} whileTap={{ scale: 0.95 }}>
+                    <motion.div
+                      key={social.label}
+                      whileHover={{ scale: 1.1, y: -3 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
                       <Link
                         href={social.href}
                         target="_blank"
@@ -177,47 +187,34 @@ export function Contact() {
                     </motion.div>
                   ))}
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </motion.div>
 
+          {/* Right form column — slides from right */}
           <motion.form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="space-y-4 p-6 bg-background/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50"
-            variants={containerVariants}
+            className="space-y-6 p-6 bg-background/80 backdrop-blur-sm rounded-xl shadow-lg border border-border/50"
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.15 }}
+            viewport={{ once: true }}
           >
-            <motion.div variants={itemVariants}>
-              <Input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                required
-                className="bg-transparent border-border/50 focus:border-primary transition-colors duration-300"
-              />
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <Input
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-                className="bg-transparent border-border/50 focus:border-primary transition-colors duration-300"
-              />
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <Textarea
-                name="message"
-                placeholder="How can I help?"
-                required
-                className="min-h-[120px] bg-transparent border-border/50 focus:border-primary transition-colors duration-300"
-              />
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <SubmitButton />
-            </motion.div>
+            <AnimatedInput type="text" name="name" placeholder="Your Name" required />
+            <AnimatedInput type="email" name="email" placeholder="Email" required />
+            <AnimatedTextarea name="message" placeholder="How can I help?" required />
+            <MagneticButton disabled={isSubmitting}>
+              <span className="mr-2">{isSubmitting ? "SENDING..." : "GET IN TOUCH"}</span>
+              <motion.span
+                animate={{ x: isSubmitting ? [0, 5, 0] : 0 }}
+                transition={{ repeat: isSubmitting ? Number.POSITIVE_INFINITY : 0, duration: 1 }}
+              >
+                <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </motion.span>
+            </MagneticButton>
           </motion.form>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

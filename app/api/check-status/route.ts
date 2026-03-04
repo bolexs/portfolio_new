@@ -8,15 +8,20 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // In a real implementation, you would make a request to the URL
-    // and check if it returns a successful status code
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 5000)
 
-    // For demo purposes, we'll simulate with a random result
-    const isLive = Math.random() > 0.2 // 80% chance of being online
+    const response = await fetch(url, {
+      method: "HEAD",
+      signal: controller.signal,
+      redirect: "follow",
+    })
+
+    clearTimeout(timeoutId)
+    const isLive = response.ok
 
     return NextResponse.json({ isLive })
-  } catch (error) {
-    console.error(`Error checking status for ${url}:`, error)
+  } catch {
     return NextResponse.json({ isLive: false })
   }
 }
