@@ -6,6 +6,32 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
+const navItems = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
+  { id: "contact", label: "Contact" },
+]
+
+const navContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05, delayChildren: 0.2 },
+  },
+}
+
+const navItemVariant = {
+  hidden: { opacity: 0, y: -20, filter: "blur(4px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { type: "spring", stiffness: 300, damping: 24 },
+  },
+}
+
 export function Header() {
   const [activeSection, setActiveSection] = useState("home")
   const [scrolled, setScrolled] = useState(false)
@@ -13,14 +39,11 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Set scrolled state for navbar background
       setScrolled(window.scrollY > 50)
 
-      // Determine active section
       const sections = ["home", "about", "skills", "projects", "contact"]
       const scrollPosition = window.scrollY + 100
 
-      // Find the current section by checking if we've scrolled past its top
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId)
         if (element) {
@@ -35,9 +58,7 @@ export function Header() {
       }
     }
 
-    // Initial check for active section
     handleScroll()
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -45,37 +66,38 @@ export function Header() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      // Close mobile menu if open
       setMobileMenuOpen(false)
-
-      // Calculate the offset based on header height
-      const headerHeight = 80 // Approximate header height in pixels
+      const headerHeight = 80
       const elementPosition = element.getBoundingClientRect().top + window.scrollY
       const offsetPosition = elementPosition - headerHeight
 
-      // Scroll to the section with offset
       window.scrollTo({
         top: offsetPosition,
         behavior: "smooth",
       })
 
-      // Update active section immediately for better UX
       setActiveSection(sectionId)
     }
   }
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent"
       }`}
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <button onClick={() => scrollToSection("home")} className="flex items-center space-x-2">
+          <motion.button
+            onClick={() => scrollToSection("home")}
+            className="flex items-center space-x-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
+          >
             <motion.span
               className="text-xl font-bold"
               whileHover={{ scale: 1.05 }}
@@ -83,29 +105,39 @@ export function Header() {
             >
               Personal
             </motion.span>
-          </button>
+          </motion.button>
 
-          <nav className="hidden md:flex items-center space-x-1">
-            {[
-              { id: "home", label: "Home" },
-              { id: "about", label: "About" },
-              { id: "skills", label: "Skills" },
-              { id: "projects", label: "Projects" },
-              { id: "contact", label: "Contact" },
-            ].map(({ id, label }) => (
-              <button
+          <motion.nav
+            className="hidden md:flex items-center space-x-1"
+            variants={navContainerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {navItems.map(({ id, label }) => (
+              <motion.button
                 key={id}
+                variants={navItemVariant}
                 onClick={() => scrollToSection(id)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeSection === id ? "bg-primary/10 text-primary" : "hover:bg-muted hover:text-foreground"
-                }`}
+                className="px-4 py-2 rounded-md text-sm font-medium transition-colors relative hover:text-foreground"
               >
                 {label}
-              </button>
+                {activeSection === id && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute -bottom-1 left-2 right-2 h-[2px] bg-primary"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </motion.button>
             ))}
-          </nav>
+          </motion.nav>
 
-          <div className="flex items-center space-x-4">
+          <motion.div
+            className="flex items-center space-x-4"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.4, ease: [0.33, 1, 0.68, 1] }}
+          >
             <ThemeToggle />
             <Button asChild>
               <a
@@ -119,7 +151,6 @@ export function Header() {
               </a>
             </Button>
 
-            {/* Mobile menu button */}
             <button
               className="md:hidden p-2 rounded-md hover:bg-muted"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -128,11 +159,10 @@ export function Header() {
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -140,17 +170,11 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
           >
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col space-y-2">
-                {[
-                  { id: "home", label: "Home" },
-                  { id: "about", label: "About" },
-                  { id: "skills", label: "Skills" },
-                  { id: "projects", label: "Projects" },
-                  { id: "contact", label: "Contact" },
-                ].map(({ id, label }) => (
+                {navItems.map(({ id, label }) => (
                   <button
                     key={id}
                     onClick={() => scrollToSection(id)}
