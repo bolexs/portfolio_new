@@ -4,7 +4,6 @@ import Image from "next/image"
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useInView } from "framer-motion"
 import { useRef, useEffect } from "react"
 import { SectionHeading } from "@/components/section-heading"
-import { TextReveal } from "@/components/text-reveal"
 
 function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
   const ref = useRef(null)
@@ -27,9 +26,28 @@ function AnimatedCounter({ target, suffix }: { target: number; suffix: string })
 
 const stats = [
   { value: 4, suffix: "+", label: "Years Experience" },
-  { value: 4000, suffix: "+", label: "Platform Users" },
+  { value: 10, suffix: "K+", label: "Platform Users" },
   { value: 10, suffix: "+", label: "Projects Delivered" },
 ]
+
+const paragraphs = [
+  "I'm a Senior Infrastructure & DevOps Engineer with 4+ years of experience architecting secure, high-availability cloud systems. I've built and scaled infrastructure across fintech, banking, edutech, greentech, and e-commerce — delivering platforms that serve 10,000+ users globally with 99.5%+ uptime.",
+  "I've led zero-downtime cloud migrations, designing secure 3-tier topologies and building environment-aware CI/CD pipelines for banking platforms. On the AI side, I've orchestrated 8+ containerized services with Docker & Kubernetes, implemented Prometheus + Grafana observability, and reduced storage costs by 40% through optimized object storage architecture.",
+  "My toolkit spans AWS, GCP, Docker, Kubernetes, Terraform, PostgreSQL, Redis, NATS, and Temporal — paired with TypeScript, Python, and frameworks like Nest.js and FastAPI. I care deeply about reliability, security, and building systems that scale without breaking.",
+]
+
+const paragraphVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      delay: i * 0.15,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  }),
+}
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -75,18 +93,22 @@ export function About() {
             </div>
           </div>
 
-          {/* Text with word-by-word scroll reveal */}
+          {/* Text with staggered paragraph fade-in */}
           <div className="space-y-6">
             <div className="space-y-4 text-muted-foreground">
-              <TextReveal>
-                I am an infrastructure engineer who loves building scalable, high-impact solutions. One of my proudest achievements is co-building QuizLink, an interactive quiz platform that has grown to over 4,000 users. I am meticulous, detail-oriented, and always looking for ways to improve my craft.
-              </TextReveal>
-              <TextReveal>
-                I've worked on projects using Python, TypeScript, and modern infrastructure tools like Docker, Kubernetes, and Terraform. From designing databases and integrating APIs to automating deployments and managing cloud infrastructure, I enjoy making systems reliable and efficient. Writing clear, readable, highly performant code matters to me.
-              </TextReveal>
-              <TextReveal>
-                I began my journey as a software engineer in 2022, and since then, I've continued to grow and evolve as a developer, taking on new challenges and learning the latest technologies along the way. Now, 4 years into my engineering journey, I'm building and deploying production-grade applications using modern technologies such as React, TypeScript, FastAPI, Nest.js, Docker, Kubernetes, and Terraform.
-              </TextReveal>
+              {paragraphs.map((text, i) => (
+                <motion.p
+                  key={i}
+                  custom={i}
+                  variants={paragraphVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-50px" }}
+                  className="leading-relaxed"
+                >
+                  {text}
+                </motion.p>
+              ))}
             </div>
 
             {/* Stats counter row */}
