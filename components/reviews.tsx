@@ -1,7 +1,6 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { motion } from "framer-motion"
 import Image from "next/image"
 import { Quote } from "lucide-react"
 import { SectionHeading } from "@/components/section-heading"
@@ -77,23 +76,14 @@ export function Reviews() {
         <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-background to-transparent z-10" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-background to-transparent z-10" />
 
-        <motion.div
-          className="flex gap-6 py-4"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            x: {
-              duration: 35,
-              repeat: Infinity,
-              ease: "linear",
-            },
-          }}
+        <div
+          className="flex gap-6 py-4 animate-marquee group-hover:[animation-play-state:paused]"
           style={{ width: "fit-content" }}
-          whileHover={{ animationPlayState: "paused" }}
         >
           {allReviews.map((review, i) => (
             <ReviewCard key={`review-${i}`} review={review} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
