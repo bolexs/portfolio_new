@@ -4,11 +4,13 @@ import { useCallback, useEffect, useState } from "react"
 import Particles, { initParticlesEngine } from "@tsparticles/react"
 import { loadSlim } from "@tsparticles/slim"
 import { useTheme } from "next-themes"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export function ParticlesBackground() {
   const [init, setInit] = useState(false)
   const { resolvedTheme } = useTheme()
   const isDarkTheme = resolvedTheme === "dark"
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -51,7 +53,7 @@ export function ParticlesBackground() {
           },
           links: {
             color: isDarkTheme ? "#ffffff" : "#000000",
-            distance: 200,
+            distance: isMobile ? 140 : 200,
             enable: true,
             opacity: 0.08,
             width: 0.5,
@@ -61,12 +63,12 @@ export function ParticlesBackground() {
             enable: true,
             outModes: { default: "out" },
             random: false,
-            speed: 0.4,
+            speed: isMobile ? 0.25 : 0.4,
             straight: false,
           },
           number: {
             density: { enable: true },
-            value: 60,
+            value: isMobile ? 25 : 60,
           },
           opacity: {
             value: { min: 0.05, max: 0.2 },

@@ -1,11 +1,12 @@
 "use client"
 
-import { Github, Linkedin, Twitter } from "lucide-react"
+import { ArrowRight, Github, Linkedin, Mail, Twitter } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { ParticlesBackground } from "@/components/particles-background"
 import { TypingAnimation } from "@/components/typing-animation"
+import { Button } from "@/components/ui/button"
 import { useMagnetic } from "@/hooks/use-magnetic"
 import { useRef, useEffect, useState } from "react"
 
@@ -161,11 +162,31 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 0.8, delay: 1.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                A versatile infrastructure engineer with a strong focus on backend development and system architecture.
-                I&apos;m equally passionate about technology entrepreneurship, running a successful business focused on
-                the sale of gadgets and accessories.
+                I build reliable backend systems and cloud infrastructure — designing, automating, and scaling the
+                platforms that power great products.
               </motion.p>
             </div>
+
+            {/* CTAs */}
+            <motion.div
+              className="flex flex-wrap items-center gap-3"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <Button asChild size="lg" className="group">
+                <Link href="#projects">
+                  View Work
+                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link href="#contact">
+                  <Mail className="w-4 h-4 mr-1" />
+                  Get in Touch
+                </Link>
+              </Button>
+            </motion.div>
 
             {/* Social icons — magnetic + spring stagger */}
             <motion.div
