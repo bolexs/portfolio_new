@@ -95,17 +95,23 @@ export function Contact() {
 
     if (!formRef.current) return
 
+    const honeypot = (formRef.current.elements.namedItem("website") as HTMLInputElement | null)?.value
+    if (honeypot) {
+      toast.success("Message sent successfully!")
+      formRef.current.reset()
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
-      const result = await emailjs.sendForm(
+      await emailjs.sendForm(
         "service_iwrqg1i",
         "template_2cwju7l",
         formRef.current,
         "EhFVTitmCvc1-k2gi"
       )
 
-      console.log(result)
       toast.success("Message sent successfully!")
       formRef.current.reset()
     } catch (error) {
@@ -147,7 +153,12 @@ export function Contact() {
             <div className="space-y-4">
               <div>
                 <h4 className="text-xl font-bold">Email</h4>
-                <p className="text-muted-foreground">info@bobas.tech</p>
+                <a
+                  href="mailto:boluwatifeadeojo9@gmail.com"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  info@bobas.tech
+                </a>
               </div>
 
               <div>
@@ -204,6 +215,15 @@ export function Contact() {
             <AnimatedInput type="text" name="name" placeholder="Your Name" required />
             <AnimatedInput type="email" name="email" placeholder="Email" required />
             <AnimatedTextarea name="message" placeholder="How can I help?" required />
+            {/* Honeypot — hidden from humans, filled by bots */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
             <MagneticButton disabled={isSubmitting}>
               <span className="mr-2">{isSubmitting ? "SENDING..." : "GET IN TOUCH"}</span>
               <motion.span
