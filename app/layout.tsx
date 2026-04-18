@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { Outfit } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
 import type React from "react" // Import React
 import { ThemeProvider } from "@/components/theme-provider"
@@ -11,8 +13,7 @@ const outfit = Outfit({
   variable: "--font-outfit",
 })
 
-const siteUrl = "https://boluwatifeadeojo.com"
-const ogImage = `${siteUrl}/bolu_icon/Frame 20.png`
+const siteUrl = "https://bobas.tech"
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -43,21 +44,12 @@ export const metadata: Metadata = {
     title: "Boluwatife Ade-ojo — Infrastructure & Backend Engineer",
     description:
       "Infrastructure engineer and backend developer. I design, automate, and scale the cloud platforms that power great products.",
-    images: [
-      {
-        url: ogImage,
-        width: 1200,
-        height: 630,
-        alt: "Boluwatife Ade-ojo — Infrastructure & Backend Engineer",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Boluwatife Ade-ojo — Infrastructure & Backend Engineer",
     description:
       "Infrastructure engineer and backend developer. I design, automate, and scale the cloud platforms that power great products.",
-    images: [ogImage],
     creator: "@bolex396",
   },
   robots: {
@@ -80,7 +72,7 @@ const personJsonLd = {
   "@type": "Person",
   name: "Boluwatife Ade-ojo",
   url: siteUrl,
-  image: ogImage,
+  image: `${siteUrl}/opengraph-image`,
   jobTitle: "Infrastructure & Backend Engineer",
   description:
     "Infrastructure engineer and backend developer based in Nigeria, focused on cloud architecture, DevOps, and scalable backend systems.",
@@ -120,6 +112,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
