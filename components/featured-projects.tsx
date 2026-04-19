@@ -17,6 +17,7 @@ interface Project {
   image: string
   url: string
   technologies: string[]
+  tagline?: string
 }
 
 const projects: Project[] = [
@@ -28,6 +29,7 @@ const projects: Project[] = [
     image: "/projects/fleetmanager-tech.png",
     url: "https://fleetmanager.tech",
     technologies: ["Next.js", "React", "Python", "FastAPI", "TailwindCSS"],
+    tagline: "43% vehicle downtime reduction",
   },
   {
     id: "02",
@@ -37,6 +39,7 @@ const projects: Project[] = [
     image: "/projects/quizlink.png",
     url: "https://quizlink.net",
     technologies: ["React", "Python", "FastAPI", "Postgres", "Tailwind CSS"],
+    tagline: "10+ study formats from any content",
   },
   {
     id: "03",
@@ -129,6 +132,11 @@ function ProjectCard({
             </div>
             <div className="p-5 flex flex-col flex-grow">
               <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+              {project.tagline && (
+                <div className="text-xs font-semibold text-primary mb-3 uppercase tracking-wide">
+                  {project.tagline}
+                </div>
+              )}
               <p className="text-muted-foreground text-sm mb-4 flex-grow">{project.description}</p>
               <div className="flex flex-wrap gap-2 mt-auto">
                 {project.technologies.map((tech) => (
